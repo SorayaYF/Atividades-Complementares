@@ -1,49 +1,99 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.atividadescomplementares.domain;
 
-public class ItemRequerimento {
+import java.util.Objects;
+import java.util.UUID;
 
+public class ItemRequerimento {
+    private final UUID id;
     private int horasDeclaradas;
     private int horasValidadas;
+    private String observacaoAvaliador;
     private StatusItem status;
-    private DocumentoComprovatorio documento;
-    private Atividade atividade;
+    private DocumentoComprobatorio documento;
 
-    public ItemRequerimento(int horasDeclaradas, DocumentoComprovatorio documento, Atividade atividade) {
+    public ItemRequerimento(int horasDeclaradas) {
+        this.id = UUID.randomUUID();
         this.horasDeclaradas = horasDeclaradas;
-        this.documento = documento;
-        this.atividade = atividade;
+        this.horasValidadas = 0;
         this.status = StatusItem.PENDENTE;
+        this.observacaoAvaliador = "";
+    }
+
+    public void anexarDocumento(String nomeArquivo, String url) {
+        if (nomeArquivo == null || nomeArquivo.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do arquivo não pode estar vazio");
+        }
+        if (url == null || url.trim().isEmpty()) {
+            throw new IllegalArgumentException("URL do documento não pode estar vazia");
+        }
+        this.documento = new DocumentoComprobatorio(nomeArquivo, url);
+    }
+
+    public void validarHoras(int horasValidadas, String observacao) {
+        if (horasValidadas < 0) {
+            throw new IllegalArgumentException("Horas validadas não podem ser negativas");
+        }
+        if (horasValidadas > this.horasDeclaradas) {
+            throw new IllegalArgumentException("Horas validadas não podem exceder as horas declaradas");
+        }
+
+        this.horasValidadas = horasValidadas;
+        this.observacaoAvaliador = observacao != null ? observacao : "";
+        this.status = horasValidadas > 0 ? StatusItem.APROVADO : StatusItem.REPROVADO;
+    }
+
+    public void reprovar(String observacao) {
+        this.horasValidadas = 0;
+        this.observacaoAvaliador = observacao != null ? observacao : "";
+        this.status = StatusItem.REPROVADO;
+    }
+
+    public boolean possuiDocumento() {
+        return this.documento != null;
+    }
+
+    public boolean estaAprovado() {
+        return this.status == StatusItem.APROVADO;
+    }
+
+    public boolean estaPendente() {
+        return this.status == StatusItem.PENDENTE;
     }
 
     public int obterHorasDeclaradas() {
-        return horasDeclaradas;
+        return this.horasDeclaradas;
     }
 
     public int obterHorasValidadas() {
-        return horasValidadas;
+        return this.horasValidadas;
     }
 
-    public void definirHorasValidadas(int horasValidadas) {
-        this.horasValidadas = horasValidadas;
+    public String obterObservacaoAvaliador() {
+        return this.observacaoAvaliador;
     }
 
     public StatusItem obterStatus() {
-        return status;
+        return this.status;
     }
 
-    public void definirStatus(StatusItem status) {
-        this.status = status;
+    public DocumentoComprobatorio obterDocumento() {
+        return this.documento;
     }
 
-    public DocumentoComprovatorio obterDocumento() {
-        return documento;
+    public UUID obterIdentificador() {
+        return this.id;
     }
 
-    public Atividade obterAtividade() {
-        return atividade;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ItemRequerimento that = (ItemRequerimento) obj;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

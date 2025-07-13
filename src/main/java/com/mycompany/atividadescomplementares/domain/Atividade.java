@@ -17,7 +17,6 @@ public final class Atividade {
         this.modalidade = modalidade;
     }
 
-    // Método privado para concentrar as validações de criação.
     private void validarArgumentos(String codigo, String descricao, int limiteDeHoras, Modalidade modalidade) {
         if (codigo == null || codigo.trim().isEmpty()) {
             throw new IllegalArgumentException("O código da atividade não pode ser nulo ou vazio.");
