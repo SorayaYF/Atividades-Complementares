@@ -3,7 +3,7 @@ package com.mycompany.atividadescomplementares.domain;
 import java.util.Objects;
 
 public class Aluno {
-    private String matricula;
+    private final String matricula;
     private String nome;
 
     public Aluno(String matricula, String nome) {
@@ -13,8 +13,15 @@ public class Aluno {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome é obrigatório.");
         }
-        this.matricula = matricula;
-        this.nome = nome;
+        this.matricula = matricula.trim();
+        this.nome = nome.trim();
+    }
+
+    public void atualizarNome(String novoNome) {
+        if (novoNome == null || novoNome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome não pode ser vazio.");
+        }
+        this.nome = novoNome.trim();
     }
 
     public String obterMatricula() {
@@ -23,14 +30,6 @@ public class Aluno {
 
     public String obterNome() {
         return nome;
-    }
-    
-    public void definirMatricula(String matricula) {
-        this.matricula = matricula;
-    }
-
-    public void definirNome(String nome) {
-        this.nome = nome;
     }
 
     @Override

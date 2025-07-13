@@ -5,14 +5,23 @@ import java.util.UUID;
 
 public class ItemRequerimento {
     private final UUID id;
-    private int horasDeclaradas;
+    private final Atividade atividade;
+    private final int horasDeclaradas;
     private int horasValidadas;
     private String observacaoAvaliador;
     private StatusItem status;
     private DocumentoComprobatorio documento;
 
-    public ItemRequerimento(int horasDeclaradas) {
+    public ItemRequerimento(Atividade atividade, int horasDeclaradas) {
+        if (atividade == null) {
+            throw new IllegalArgumentException("Atividade é obrigatória");
+        }
+        if (horasDeclaradas <= 0) {
+            throw new IllegalArgumentException("Horas declaradas devem ser positivas");
+        }
+
         this.id = UUID.randomUUID();
+        this.atividade = atividade;
         this.horasDeclaradas = horasDeclaradas;
         this.horasValidadas = 0;
         this.status = StatusItem.PENDENTE;
@@ -29,6 +38,20 @@ public class ItemRequerimento {
         this.documento = new DocumentoComprobatorio(nomeArquivo, url);
     }
 
+    public void validarAutomaticamente() {
+        int horasCalculadas = this.atividade.calcularHorasValidas(this.horasDeclaradas);
+        String observacao = gerarObservacaoAutomatica(horasCalculadas);
+        validarHoras(horasCalculadas, observacao);
+    }
+
+    private String gerarObservacaoAutomatica(int horasCalculadas) {
+        if (horasCalculadas < this.horasDeclaradas) {
+            return String.format("Horas declaradas (%dh) excedem o limite (%dh); ajustadas para %dh.",
+                    this.horasDeclaradas, this.atividade.obterLimiteDeHoras(), horasCalculadas);
+        }
+        return "-- (sem ajuste)";
+    }
+
     public void validarHoras(int horasValidadas, String observacao) {
         if (horasValidadas < 0) {
             throw new IllegalArgumentException("Horas validadas não podem ser negativas");
@@ -39,7 +62,14 @@ public class ItemRequerimento {
 
         this.horasValidadas = horasValidadas;
         this.observacaoAvaliador = observacao != null ? observacao : "";
-        this.status = horasValidadas > 0 ? StatusItem.APROVADO : StatusItem.REPROVADO;
+
+        if (horasValidadas == 0) {
+            this.status = StatusItem.REPROVADO;
+        } else if (horasValidadas < this.horasDeclaradas) {
+            this.status = StatusItem.APROVADO_PARCIALMENTE;
+        } else {
+            this.status = StatusItem.APROVADO;
+        }
     }
 
     public void reprovar(String observacao) {
@@ -56,33 +86,21 @@ public class ItemRequerimento {
         return this.status == StatusItem.APROVADO;
     }
 
+    public boolean estaAprovadoParcialmente() {
+        return this.status == StatusItem.APROVADO_PARCIALMENTE;
+    }
+
     public boolean estaPendente() {
         return this.status == StatusItem.PENDENTE;
     }
 
-    public int obterHorasDeclaradas() {
-        return this.horasDeclaradas;
-    }
-
-    public int obterHorasValidadas() {
-        return this.horasValidadas;
-    }
-
-    public String obterObservacaoAvaliador() {
-        return this.observacaoAvaliador;
-    }
-
-    public StatusItem obterStatus() {
-        return this.status;
-    }
-
-    public DocumentoComprobatorio obterDocumento() {
-        return this.documento;
-    }
-
-    public UUID obterIdentificador() {
-        return this.id;
-    }
+    public UUID obterIdentificador() { return this.id; }
+    public Atividade obterAtividade() { return this.atividade; }
+    public int obterHorasDeclaradas() { return this.horasDeclaradas; }
+    public int obterHorasValidadas() { return this.horasValidadas; }
+    public String obterObservacaoAvaliador() { return this.observacaoAvaliador; }
+    public StatusItem obterStatus() { return this.status; }
+    public DocumentoComprobatorio obterDocumento() { return this.documento; }
 
     @Override
     public boolean equals(Object obj) {

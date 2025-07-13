@@ -5,48 +5,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Requerimento {
     private final UUID id;
-    private final String matricula;
-    private final String nome;
-    private StatusItem status;
+    private final Aluno aluno;
+    private StatusRequerimento status;
     private final LocalDate dataFechamento;
     private final List<ItemRequerimento> itens;
-    private int totalHorasModalidade;
 
-    public Requerimento(String matricula, String nome, int totalHorasModalidade) {
-        if (matricula == null || matricula.trim().isEmpty()) {
-            throw new IllegalArgumentException("Matrícula é obrigatória");
-        }
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome é obrigatório");
-        }
-        if (totalHorasModalidade <= 0) {
-            throw new IllegalArgumentException("Total de horas da modalidade deve ser positivo");
+    public Requerimento(Aluno aluno) {
+        if (aluno == null) {
+            throw new IllegalArgumentException("Aluno é obrigatório");
         }
 
         this.id = UUID.randomUUID();
-        this.matricula = matricula.trim();
-        this.nome = nome.trim();
-        this.status = StatusItem.PENDENTE;
+        this.aluno = aluno;
+        this.status = StatusRequerimento.ABERTO;
         this.dataFechamento = LocalDate.now();
         this.itens = new ArrayList<>();
-        this.totalHorasModalidade = totalHorasModalidade;
     }
 
     public void adicionarItem(ItemRequerimento item) {
         if (item == null) {
             throw new IllegalArgumentException("Item não pode ser nulo");
         }
-        if (this.status != StatusItem.PENDENTE) {
+        if (!this.status.podeSerEditado()) {
             throw new IllegalStateException("Não é possível adicionar itens a um requerimento já processado");
         }
         this.itens.add(item);
     }
 
     public void removerItem(ItemRequerimento item) {
-        if (this.status != StatusItem.PENDENTE) {
+        if (!this.status.podeSerEditado()) {
             throw new IllegalStateException("Não é possível remover itens de um requerimento já processado");
         }
         this.itens.remove(item);
@@ -57,15 +48,9 @@ public class Requerimento {
             throw new IllegalStateException("Requerimento deve ter pelo menos um item para ser processado");
         }
 
-        int totalHorasValidadas = calcularTotalHorasValidadas();
-        
-        if (totalHorasValidadas == 0) {
-            this.status = StatusItem.REPROVADO;
-        } else if (totalHorasValidadas >= this.totalHorasModalidade) {
-            this.status = StatusItem.APROVADO;
-        } else {
-            this.status = StatusItem.APROVADO_PARCIALMENTE;
-        }
+        this.itens.forEach(ItemRequerimento::validarAutomaticamente);
+
+        this.status = StatusRequerimento.FINALIZADO;
     }
 
     public int calcularTotalHorasValidadas() {
@@ -80,71 +65,17 @@ public class Requerimento {
                 .sum();
     }
 
-    public boolean estaCompleto() {
-        return calcularTotalHorasValidadas() >= this.totalHorasModalidade;
-    }
-
-    public boolean possuiItensReprovados() {
+    public List<ItemRequerimento> obterItensPorModalidade(Modalidade modalidade) {
         return this.itens.stream()
-                .anyMatch(item -> item.obterStatus() == StatusItem.REPROVADO);
+                .filter(item -> item.obterAtividade().eDaModalidade(modalidade))
+                .collect(Collectors.toList());
     }
 
-    public boolean possuiItensPendentes() {
-        return this.itens.stream()
-                .anyMatch(ItemRequerimento::estaPendente);
-    }
-
-    public List<ItemRequerimento> obterItensReprovados() {
-        return this.itens.stream()
-                .filter(item -> item.obterStatus() == StatusItem.REPROVADO)
-                .toList();
-    }
-
-    public List<ItemRequerimento> obterItensAprovados() {
-        return this.itens.stream()
-                .filter(ItemRequerimento::estaAprovado)
-                .toList();
-    }
-
-    public double calcularPercentualCumprimento() {
-        if (this.totalHorasModalidade == 0) return 0.0;
-        return (double) calcularTotalHorasValidadas() / this.totalHorasModalidade * 100;
-    }
-
-    public UUID obterIdentificador() {
-        return this.id;
-    }
-
-    public String obterMatricula() {
-        return this.matricula;
-    }
-
-    public String obterNome() {
-        return this.nome;
-    }
-
-    public StatusItem obterStatus() {
-        return this.status;
-    }
-
-    public LocalDate obterDataFechamento() {
-        return this.dataFechamento;
-    }
-
-    public List<ItemRequerimento> obterItens() {
-        return new ArrayList<>(this.itens);
-    }
-
-    public int obterTotalHorasModalidade() {
-        return this.totalHorasModalidade;
-    }
-
-    public void definirTotalHorasModalidade(int totalHorasModalidade) {
-        if (totalHorasModalidade <= 0) {
-            throw new IllegalArgumentException("Total de horas da modalidade deve ser positivo");
-        }
-        this.totalHorasModalidade = totalHorasModalidade;
-    }
+    public UUID obterIdentificador() { return this.id; }
+    public Aluno obterAluno() { return this.aluno; }
+    public StatusRequerimento obterStatus() { return this.status; }
+    public LocalDate obterDataFechamento() { return this.dataFechamento; }
+    public List<ItemRequerimento> obterItens() { return new ArrayList<>(this.itens); }
 
     @Override
     public boolean equals(Object obj) {

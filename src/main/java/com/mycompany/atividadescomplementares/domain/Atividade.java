@@ -3,7 +3,6 @@ package com.mycompany.atividadescomplementares.domain;
 import java.util.Objects;
 
 public final class Atividade {
-
     private final String codigo;
     private final String descricao;
     private final int limiteDeHoras;
@@ -43,9 +42,17 @@ public final class Atividade {
     public String obterCodigo() {
         return codigo;
     }
-    
+
+    public String obterDescricao() {
+        return descricao;
+    }
+
     public int obterLimiteDeHoras() {
         return limiteDeHoras;
+    }
+
+    public Modalidade obterModalidade() {
+        return modalidade;
     }
 
     @Override

@@ -15,7 +15,7 @@ public class DocumentoComprobatorio {
         if (url == null || url.trim().isEmpty()) {
             throw new IllegalArgumentException("URL é obrigatória");
         }
-        
+
         this.nomeArquivo = nomeArquivo.trim();
         this.url = url.trim();
         this.dataUpload = LocalDate.now();
@@ -27,10 +27,10 @@ public class DocumentoComprobatorio {
 
     public boolean ehImagem() {
         String nomeMinusculo = this.nomeArquivo.toLowerCase();
-        return nomeMinusculo.endsWith(".jpg") || 
-               nomeMinusculo.endsWith(".jpeg") || 
-               nomeMinusculo.endsWith(".png") || 
-               nomeMinusculo.endsWith(".gif");
+        return nomeMinusculo.endsWith(".jpg") ||
+                nomeMinusculo.endsWith(".jpeg") ||
+                nomeMinusculo.endsWith(".png") ||
+                nomeMinusculo.endsWith(".gif");
     }
 
     public String obterExtensao() {
@@ -56,7 +56,7 @@ public class DocumentoComprobatorio {
         if (obj == null || getClass() != obj.getClass()) return false;
         DocumentoComprobatorio that = (DocumentoComprobatorio) obj;
         return Objects.equals(nomeArquivo, that.nomeArquivo) &&
-               Objects.equals(url, that.url);
+                Objects.equals(url, that.url);
     }
 
     @Override
