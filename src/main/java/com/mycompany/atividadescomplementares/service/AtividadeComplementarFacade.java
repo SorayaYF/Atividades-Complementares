@@ -1,6 +1,7 @@
 package com.mycompany.atividadescomplementares.service;
 
 import com.mycompany.atividadescomplementares.domain.Atividade;
+import com.mycompany.atividadescomplementares.domain.ItemRequerimento;
 import com.mycompany.atividadescomplementares.domain.Modalidade;
 import com.mycompany.atividadescomplementares.domain.Requerimento;
 import com.mycompany.atividadescomplementares.repository.AtividadeRepository;
