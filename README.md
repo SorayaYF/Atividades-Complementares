@@ -1,95 +1,107 @@
-# 🎓 Sistema de Atividades Complementares
+# 🎓 Sistema de Atividades Complementares - IFSC
 ![Java](https://img.shields.io/badge/Java-23-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-3.8+-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
 ![Console](https://img.shields.io/badge/Console-Application-000000?style=for-the-badge&logo=windows-terminal&logoColor=white)
 
 ## 📋 Apresentação do Projeto
 
-O **Sistema de Atividades Complementares** é uma aplicação console desenvolvida em Java que permite aos estudantes universitários registrar suas atividades extracurriculares e obter um parecer automatizado de validação das horas declaradas conforme as normas acadêmicas institucionais.
+O **Sistema de Atividades Complementares** é uma aplicação console desenvolvida em Java que permite aos estudantes do Instituto Federal de Santa Catarina (IFSC) registrar suas atividades extracurriculares e obter um parecer automatizado de validação das horas declaradas conforme o **Regulamento das Atividades Complementares** institucional.
 
 ### 🎯 Objetivo
 
-Automatizar e padronizar o processo de validação de atividades complementares em instituições de ensino superior, aplicando regras de negócio específicas para cada modalidade de atividade e gerando pareceres detalhados com as horas efetivamente validadas, eliminando subjetividade e garantindo transparência no processo.
+Automatizar e padronizar o processo de validação de atividades complementares conforme o regulamento do IFSC, aplicando regras específicas de cada modalidade (limites de horas e percentuais máximos), controle de documentação obrigatória e geração de pareceres detalhados com transparência e eliminação de subjetividade no processo avaliativo.
 
 ### ✨ Funcionalidades Principais
 
-- 📝 **Registro Organizado de Atividades**: Sistema estruturado por modalidades acadêmicas
-  - 🎓 **Ensino**: Monitoria, aulas de reforço, tutoria
-  - 🔬 **Pesquisa**: Iniciação científica, publicações, congressos
-  - 🤝 **Extensão**: Projetos sociais, cursos comunitários, voluntariado
-  - 💼 **Complementação**: Palestras técnicas, visitas, workshops
+- 📝 **Registro Conformo ao Regulamento IFSC**: Sistema estruturado pelas modalidades oficiais
+  - 🎓 **Ensino**: Disciplinas extras, monitoria, semanas acadêmicas, visitas técnicas
+  - 🔬 **Pesquisa e Inovação**: Iniciação científica, publicações, apresentações em eventos
+  - 🤝 **Extensão**: Projetos sociais, intercâmbios, estágios não-obrigatórios
+  - 💼 **Complementação**: Congressos, palestras, representação estudantil, atividades culturais
 
-- ⚡ **Validação Automática e Inteligente**: 
-  - Aplicação de limites máximos por tipo de atividade
+- ⚡ **Validação Automática Inteligente**: 
+  - Aplicação de limites específicos por atividade (conforme regulamento)
+  - Verificação de documentação obrigatória por tipo de atividade
+  - Controle de percentuais máximos por modalidade (40% para Ensino/Pesquisa/Extensão, 20% Complementação)
   - Ajuste automático quando horas excedem o permitido
-  - Geração de observações explicativas detalhadas
-  - Prevenção de fraudes e inconsistências
+  - Validação de horas mínimas totais configuráveis por curso
 
-- 📊 **Relatórios Profissionais**: 
-  - Pareceres formatados seguindo padrões institucionais
-  - Detalhamento por atividade individual
-  - Resumo executivo com totalizações
-  - Observações técnicas para cada validação
+- 📊 **Relatórios Profissionais Detalhados**: 
+  - Pareceres formatados seguindo padrões institucionais do IFSC
+  - Detalhamento individual por atividade com status específico
+  - Resumo por modalidade com percentuais utilizados
+  - Resultado final de aprovação/reprovação com justificativas
+  - Alertas sobre documentação pendente
 
 - 🔄 **Interface Intuitiva e Robusta**: 
-  - Navegação hierárquica clara e lógica
-  - Validação rigorosa de entrada do usuário
-  - Tratamento de erros com mensagens informativas
-  - Fluxo de trabalho guiado passo a passo
+  - Navegação hierárquica com informações de limites visíveis
+  - Validação rigorosa de entrada com tratamento de erros
+  - Exibição de avisos sobre documentação obrigatória
+  - Visualização do requerimento em construção
+  - Fluxo de trabalho guiado conforme regulamento
 
 ### 🏗️ Arquitetura do Sistema
 
-O sistema foi desenvolvido seguindo os princípios da **Arquitetura Limpa (Clean Architecture)** de Robert C. Martin e **Domain-Driven Design (DDD)** de Eric Evans, organizando o código em camadas bem definidas com responsabilidades específicas e baixo acoplamento:
+O sistema foi desenvolvido seguindo os princípios da **Arquitetura Limpa (Clean Architecture)** de Robert C. Martin e **Domain-Driven Design (DDD)** de Eric Evans, organizando o código em camadas bem definidas:
 
 ```
 📁 src/main/java/com/mycompany/atividadescomplementares/
 ├── 🏛️ domain/                    # Camada de Domínio (Core Business)
-│   ├── Aluno.java               # Entidade Aluno
-│   ├── Atividade.java           # Entidade Atividade  
-│   ├── ItemRequerimento.java    # Entidade Item de Requerimento
-│   ├── Requerimento.java        # Agregado Requerimento
-│   ├── DocumentoComprobatorio.java  # Value Object
-│   ├── StatusItem.java          # Enum com comportamentos
-│   ├── StatusRequerimento.java  # Enum com regras de transição
-│   └── Modalidade.java          # Enum de classificação
+│   ├── Aluno.java               # Entidade Aluno com configuração do curso
+│   ├── Atividade.java           # Entidade Atividade com documentação
+│   ├── CursoConfig.java         # Value Object de configuração do curso
+│   ├── ItemRequerimento.java    # Entidade Item com validação automática
+│   ├── Requerimento.java        # Agregado principal com controle de estado
+│   ├── DocumentoComprobatorio.java  # Value Object para anexos
+│   ├── StatusItem.java          # Enum para status de itens
+│   ├── StatusRequerimento.java  # Enum para controle de fluxo
+│   └── Modalidade.java          # Enum com percentuais do regulamento
 ├── 🗃️ repository/               # Camada de Repositório
 │   ├── AtividadeRepository.java      # Interface de acesso
-│   └── AtividadeRepositoryMemoria.java  # Implementação em memória
+│   └── AtividadeRepositoryMemoria.java  # Implementação com atividades do IFSC
 ├── ⚙️ service/                   # Camada de Aplicação
 │   ├── AtividadeComplementarFacade.java  # Facade principal
 │   ├── GeradorParecer.java              # Interface Strategy
 │   └── GeradorParecerConsole.java       # Implementação console
 ├── 🖥️ presentation/             # Camada de Apresentação
 │   ├── MenuTemplate.java        # Template Method abstrato
-│   ├── MenuModalidades.java     # Menu principal
-│   └── MenuAtividades.java      # Menu de atividades
+│   ├── MenuModalidades.java     # Menu principal com resumos
+│   └── MenuAtividades.java      # Menu de atividades por modalidade
 └── 🚀 SistemaAtividadesComplementares.java  # Bootstrap da aplicação
 ```
 
-**Benefícios da Arquitetura Adotada:**
-- 🎯 **Separação Clara de Responsabilidades**: Cada camada tem um propósito específico
-- 🔄 **Baixo Acoplamento**: Mudanças em uma camada não afetam as outras
-- 🧪 **Alta Testabilidade**: Componentes podem ser testados isoladamente
-- 📈 **Facilidade de Extensão**: Novos recursos podem ser adicionados sem modificar código existente
-- 🛡️ **Proteção do Domínio**: Regras de negócio protegidas de mudanças externas
+**Novidades da Arquitetura Atualizada:**
+- 🎯 **CursoConfig**: Configuração específica por curso (TADS com 200h)
+- 📋 **Atividades do Regulamento**: 41 atividades pré-cadastradas conforme regulamento IFSC
+- 🔍 **Validação de Documentação**: Controle obrigatório de anexos por atividade
+- 📊 **Percentuais por Modalidade**: Implementação exata dos limites regulamentares
+- ✅ **Aprovação Automática**: Algoritmo completo de validação final
 
-## 📊 Diagramas UML e Descrições
+## 📊 Diagramas UML Atualizados
 
-### 🏗️ Diagrama de Classes - Camada de Domínio
-
-Este diagrama representa o núcleo do sistema, mostrando as entidades principais e seus relacionamentos:
+### 🏗️ Diagrama de Classes - Camada de Domínio Completa
 
 ```mermaid
 classDiagram
     class Aluno {
         -String matricula
         -String nome
-        +Aluno(matricula, nome)
+        -CursoConfig cursoConfig
+        +Aluno(matricula, nome, config)
         +atualizarNome(novoNome) void
         +obterMatricula() String
         +obterNome() String
-        +equals(obj) boolean
-        +hashCode() int
+        +obterCursoConfig() CursoConfig
+    }
+
+    class CursoConfig {
+        -String codigoCurso
+        -int horasMinimasTotal
+        -Map~Modalidade,Integer~ horasMinimasPorModalidade
+        +CursoConfig(codigo, horasMinimas)
+        +obterHorasMinimasTotal() int
+        +obterHorasMinimasPorModalidade(modalidade) int
+        +validarDistribuicaoHoras(horasPorModalidade, totalHoras) boolean
     }
 
     class Atividade {
@@ -97,13 +109,12 @@ classDiagram
         -String descricao
         -int limiteDeHoras
         -Modalidade modalidade
-        +Atividade(codigo, descricao, limite, modalidade)
+        -String documentacaoComprobatoria
+        -boolean requerDocumento
+        +Atividade(codigo, descricao, limite, modalidade, doc, requerDoc)
         +calcularHorasValidas(horasDeclaradas) int
         +eDaModalidade(modalidade) boolean
-        +obterCodigo() String
-        +obterDescricao() String
-        +obterLimiteDeHoras() int
-        +obterModalidade() Modalidade
+        +requerDocumento() boolean
     }
 
     class Requerimento {
@@ -114,11 +125,11 @@ classDiagram
         -List~ItemRequerimento~ itens
         +Requerimento(aluno)
         +adicionarItem(item) void
-        +removerItem(item) void
         +processar() void
+        +estaAprovado() boolean
+        +calcularHorasPorModalidade() Map~Modalidade,Integer~
         +calcularTotalHorasValidadas() int
-        +calcularTotalHorasDeclaradas() int
-        +obterItensPorModalidade(modalidade) List~ItemRequerimento~
+        +enviarParaAvaliacao() void
     }
 
     class ItemRequerimento {
@@ -131,13 +142,9 @@ classDiagram
         -DocumentoComprobatorio documento
         +ItemRequerimento(atividade, horas)
         +validarAutomaticamente() void
+        +validarPorAvaliador(horas, observacao) void
         +anexarDocumento(nome, url) void
-        +validarHoras(horas, observacao) void
-        +reprovar(observacao) void
         +possuiDocumento() boolean
-        +estaAprovado() boolean
-        +estaAprovadoParcialmente() boolean
-        +estaPendente() boolean
     }
 
     class DocumentoComprobatorio {
@@ -148,9 +155,6 @@ classDiagram
         +ehPdf() boolean
         +ehImagem() boolean
         +obterExtensao() String
-        +obterNomeArquivo() String
-        +obterUrl() String
-        +obterDataUpload() LocalDate
     }
 
     class StatusItem {
@@ -168,144 +172,30 @@ classDiagram
         EM_AVALIACAO
         FINALIZADO
         +podeSerEditado() boolean
-        +podeMudarParaFinalizado() boolean
         +estaFinalizado() boolean
-        +descrever() String
     }
 
     class Modalidade {
         <<enumeration>>
-        ENSINO
-        PESQUISA
-        EXTENSAO
-        COMPLEMENTACAO
+        ENSINO(40%)
+        PESQUISA(40%)
+        EXTENSAO(40%)
+        COMPLEMENTACAO(20%)
         +descrever() String
+        +obterPercentualMaximo() double
     }
 
-    Requerimento  "1"  -->  "1"        Aluno                 : possui
-    Requerimento  "1"  o--  "many"     ItemRequerimento      : contém
-    ItemRequerimento "1" --> "1"       Atividade             : refere-se
-    ItemRequerimento "0..1" --> "1"    DocumentoComprobatorio: documento
-    ItemRequerimento "1" --> "1"       StatusItem            : status
-    Requerimento  "1"  -->  "1"        StatusRequerimento    : status
-    Atividade     "1"  -->  "1"        Modalidade            : pertence
+    Aluno "1" --> "1" CursoConfig : possui
+    Requerimento "1" --> "1" Aluno : pertence
+    Requerimento "1" o-- "many" ItemRequerimento : contém
+    ItemRequerimento "1" --> "1" Atividade : refere-se
+    ItemRequerimento "0..1" --> "1" DocumentoComprobatorio : documento
+    ItemRequerimento "1" --> "1" StatusItem : status
+    Requerimento "1" --> "1" StatusRequerimento : status
+    Atividade "1" --> "1" Modalidade : pertence
 ```
 
-**Descrição dos Componentes Principais:**
-
-- **🎓 Aluno**: Entidade que representa o estudante, identificado unicamente pela matrícula
-- **📋 Atividade**: Value Object imutável que define tipos de atividades com limites específicos
-- **📄 Requerimento**: Agregado principal que coordena todo o processo de validação
-- **📌 ItemRequerimento**: Entidade que representa cada atividade individual declarada
-- **📎 DocumentoComprobatorio**: Value Object para anexos de comprovação
-- **🏷️ StatusItem/StatusRequerimento**: Enums que controlam os estados do sistema
-- **🗂️ Modalidade**: Classificação das atividades por área acadêmica
-
-### 🏛️ Diagrama de Classes - Arquitetura Completa
-
-Este diagrama mostra como todas as camadas se integram:
-
-```mermaid
-classDiagram
-    %% Presentation Layer
-    class MenuTemplate {
-        <<abstract>>
-        #Scanner scanner
-        +executar() void
-        +inicializar()* void
-        +deveExecutar()* boolean
-        +exibirOpcoes()* void
-        +lerOpcao()* int
-        +processarOpcao(opcao)* void
-        +finalizar()* void
-    }
-
-    class MenuModalidades {
-        -AtividadeComplementarFacade facade
-        -Requerimento requerimento
-        -boolean continuar
-        +MenuModalidades(scanner, facade, requerimento)
-        +inicializar() void
-        +deveExecutar() boolean
-        +exibirOpcoes() void
-        +processarOpcao(opcao) void
-    }
-
-    class MenuAtividades {
-        -AtividadeComplementarFacade facade
-        -Requerimento requerimento
-        -Modalidade modalidade
-        -List~Atividade~ atividades
-        -boolean continuar
-        +MenuAtividades(scanner, facade, requerimento, modalidade)
-        +exibirOpcoes() void
-        +processarOpcao(opcao) void
-    }
-
-    %% Service Layer
-    class AtividadeComplementarFacade {
-        -AtividadeRepository atividadeRepository
-        -GeradorParecer geradorParecer
-        +AtividadeComplementarFacade(repository, gerador)
-        +listarAtividadesPorModalidade(modalidade) List~Atividade~
-        +buscarAtividade(codigo) Atividade
-        +gerarParecer(requerimento) String
-    }
-
-    class GeradorParecer {
-        <<interface>>
-        +gerarParecer(requerimento) String
-    }
-
-    class GeradorParecerConsole {
-        +gerarParecer(requerimento) String
-    }
-
-    %% Repository Layer
-    class AtividadeRepository {
-        <<interface>>
-        +buscarPorModalidade(modalidade) List~Atividade~
-        +buscarPorCodigo(codigo) Optional~Atividade~
-        +buscarTodas() List~Atividade~
-    }
-
-    class AtividadeRepositoryMemoria {
-        -Map~String,Atividade~ atividades
-        +AtividadeRepositoryMemoria()
-        -inicializarAtividades() void
-        +buscarPorModalidade(modalidade) List~Atividade~
-        +buscarPorCodigo(codigo) Optional~Atividade~
-        +buscarTodas() List~Atividade~
-    }
-
-    %% Application
-    class SistemaAtividadesComplementares {
-        +main(args) void
-    }
-
-    %% Relacionamentos entre camadas
-    MenuTemplate <|-- MenuModalidades
-    MenuTemplate <|-- MenuAtividades
-    MenuModalidades --> AtividadeComplementarFacade
-    MenuAtividades --> AtividadeComplementarFacade
-    AtividadeComplementarFacade --> AtividadeRepository
-    AtividadeComplementarFacade --> GeradorParecer
-    GeradorParecer <|.. GeradorParecerConsole
-    AtividadeRepository <|.. AtividadeRepositoryMemoria
-    SistemaAtividadesComplementares --> MenuModalidades
-    SistemaAtividadesComplementares --> AtividadeComplementarFacade
-```
-
-**Análise das Responsabilidades por Camada:**
-
-- **🖥️ Presentation**: Gerencia interação com usuário e fluxo de navegação
-- **⚙️ Service**: Coordena operações complexas e implementa casos de uso
-- **🗃️ Repository**: Abstrai acesso e persistência de dados
-- **🏛️ Domain**: Contém regras de negócio e lógica central (não mostrado aqui para simplificar)
-
-### 🔄 Diagrama de Sequência - Fluxo Principal de Uso
-
-Este diagrama ilustra a interação completa durante uma sessão típica:
+### 🔄 Diagrama de Sequência - Fluxo com Validação de Documentação
 
 ```mermaid
 sequenceDiagram
@@ -316,363 +206,659 @@ sequenceDiagram
     participant R as Requerimento
     participant IR as ItemRequerimento
     participant A as Atividade
-    participant GP as GeradorParecerConsole
 
-    Note over U,GP: Inicio da Sessao
+    Note over U,A: Fluxo Completo com Documentação
     U->>MM: Executa aplicação
-    MM->>MM: inicializar()
-    MM-->>U: Exibe matrícula e menu principal
+    MM->>MM: inicializar() - exibe informações do curso
+    MM-->>U: Menu principal com limites por modalidade
 
-    Note over U,GP: Loop de Seleção de Modalidades
-    loop Seleção de Modalidades
-        MM->>MM: exibirOpcoes()
-        MM-->>U: Menu opcoes
+    loop Seleção de Atividades
         U->>MM: Seleciona modalidade
-        
         MM->>MA: new MenuAtividades(modalidade)
         MA->>F: listarAtividadesPorModalidade()
-        F->>R: buscarPorModalidade(modalidade)
-        R-->>F: List de Atividades
-        F-->>MA: atividades filtradas
+        F-->>MA: atividades com indicação de documentação
         
-        Note over U,GP: Loop de Seleção de Atividades
-        loop Seleção de Atividades na Modalidade
-            MA->>MA: exibirOpcoes()
-            MA-->>U: Lista atividades com limites
-            U->>MA: Seleciona atividade e informa horas
-            
-            alt Dados válidos
-                MA->>IR: new ItemRequerimento(atividade, horas)
-                MA->>R: adicionarItem(item)
-                R-->>MA: Item adicionado com sucesso
-                MA-->>U: Atividade adicionada ao requerimento
-            else Dados inválidos
-                MA-->>U: Mensagem de erro
+        MA-->>U: Lista atividades [DOC OBRIGATÓRIO] se necessário
+        U->>MA: Seleciona atividade e informa horas
+        
+        alt Atividade requer documentação
+            MA-->>U: Pergunta sobre anexar documento
+            alt Usuario aceita anexar
+                U->>MA: Informa nome e URL do documento
+                MA->>IR: anexarDocumento(nome, url)
+                IR-->>MA: Documento anexado
+                MA-->>U: "Documento anexado com sucesso!"
+            else Usuario recusa
+                MA-->>U: "ATENÇÃO: Documentação obrigatória!"
             end
         end
         
-        U->>MA: Seleciona voltar
-        MA-->>MM: Retorna ao menu principal
+        MA->>IR: new ItemRequerimento(atividade, horas)
+        MA->>R: adicionarItem(item)
+        R-->>MA: Item adicionado
+        MA-->>U: "Atividade adicionada" + aviso se horas limitadas
     end
 
-    Note over U,GP: Finalização e Geração de Parecer
-    U->>MM: Seleciona finalizar
-    MM->>F: gerarParecer(requerimento)
+    Note over U,A: Finalização com Validação Completa
+    U->>MM: Seleciona finalizar (opção 0)
+    MM->>F: validarDocumentacaoObrigatoria(requerimento)
+    F->>R: obterItens() para verificar documentos
     
-    F->>R: processar()
-    Note over R,IR: Processamento automático de todos os itens
-    loop Para cada ItemRequerimento
-        R->>IR: validarAutomaticamente()
-        IR->>A: calcularHorasValidas(horasDeclaradas)
-        A-->>IR: horas calculadas
-        IR->>IR: gerarObservacaoAutomatica()
-        IR->>IR: validarHoras(horas, observacao)
-        IR->>IR: Atualiza status
+    alt Documentação incompleta
+        F-->>MM: false - documentação pendente
+        MM-->>U: "ATENÇÃO: Documentação obrigatória pendente!"
+        U->>MM: Confirma ou cancela finalização
     end
+    
+    MM->>F: gerarParecer(requerimento)
+    F->>R: processar()
+    
+    loop Para cada item
+        R->>IR: validarAutomaticamente()
+        IR->>IR: Verifica se possui documento obrigatório
+        alt Documento obrigatório ausente
+            IR->>IR: reprovar("documentação obrigatória não anexada")
+        else Documento OK ou não obrigatório
+            IR->>A: calcularHorasValidas(horasDeclaradas)
+            IR->>IR: validarHoras() com observação automática
+        end
+    end
+    
+    R->>R: Calcula distribuição por modalidade
+    R->>R: Verifica aprovação geral
     R->>R: status = FINALIZADO
     
-    F->>GP: gerarParecer(requerimento)
-    GP->>R: obterItens()
-    GP->>R: calcularTotalHorasDeclaradas()
-    GP->>R: calcularTotalHorasValidadas()
-    GP->>GP: Formatar parecer completo
-    GP-->>F: String com parecer formatado
-    F-->>MM: parecer pronto
-    MM-->>U: Exibe parecer completo
-    
-    MM->>MM: finalizar()
-    MM-->>U: Sistema finalizado
+    F-->>MM: Parecer completo formatado
+    MM-->>U: Exibe parecer com resultado final
 ```
 
-**Fluxos de Erro Importantes:**
-- ❌ **Entrada inválida**: Sistema solicita nova entrada
-- ❌ **Horas negativas**: Rejeição com mensagem explicativa  
-- ❌ **Requerimento vazio**: Não permite finalização
-- ❌ **Atividade não encontrada**: Tratamento de exceção
-
-### 🏢 Diagrama de Arquitetura - Visão de Componentes
+### 🏢 Diagrama de Componentes - Arquitetura com Regulamento IFSC
 
 ```mermaid
 graph TB
-    subgraph PresentationLayer ["🖥️ Presentation Layer"]
-        direction TB
-        MT[MenuTemplate<br/>abstract]
-        MM[MenuModalidades]
-        MA[MenuAtividades]
+    %% ─────────────────── Application ───────────────────
+    subgraph Application ["🚀 Application Bootstrap"]
+        SAC["SistemaAtividadesComplementares<br>• Configura TADS - 200h<br>• Inicializa aluno teste<br>• Injeta dependências"]
+    end
+
+    %% ─────────────────── Presentation ──────────────────
+    subgraph Presentation ["🖥️ Presentation Layer"]
+        MT["MenuTemplate<br>• Template Method<br>• Fluxo padrão de execução"]
+        MM["MenuModalidades<br>• Menu principal<br>• Exibe limites regulamento<br>• Validação documentação"]
+        MA["MenuAtividades<br>• Menu por modalidade<br>• Indica doc obrigatória<br>• Anexo de documentos"]
         MT -.-> MM
         MT -.-> MA
     end
 
-    subgraph ServiceLayer ["⚙️ Service Layer"]
-        direction TB
-        F[AtividadeComplementarFacade<br/>facade]
-        GPI[GeradorParecer<br/>interface]
-        GPC[GeradorParecerConsole]
+    %% ─────────────────── Service ───────────────────────
+    subgraph Service ["⚙️ Service Layer"]
+        F["AtividadeComplementarFacade<br>• Coordena operações<br>• Valida documentação<br>• Gera pareceres"]
+        GPI["GeradorParecer<br>Interface Strategy"]
+        GPC["GeradorParecerConsole<br>• Parecer detalhado<br>• Resumo por modalidade<br>• Resultado aprovação"]
         GPI -.-> GPC
     end
 
-    subgraph RepositoryLayer ["🗃️ Repository Layer"]
-        direction TB
-        ARI[AtividadeRepository<br/>interface]
-        ARM[AtividadeRepositoryMemoria]
+    %% ─────────────────── Repository ────────────────────
+    subgraph Repository ["🗃️ Repository Layer"]
+        ARI["AtividadeRepository<br>Interface"]
+        ARM["AtividadeRepositoryMemoria<br>• 41 atividades IFSC<br>• 4 modalidades<br>• Documentação mapeada"]
         ARI -.-> ARM
     end
 
-    subgraph DomainLayer ["🏛️ Domain Layer"]
-        direction TB
-        AL[Aluno]
-        RE[Requerimento]
-        IR[ItemRequerimento]
-        AT[Atividade]
-        DC[DocumentoComprobatorio]
+    %% ─────────────────── Domain ────────────────────────
+    subgraph Domain ["🏛️ Domain Layer"]
+        subgraph Entities ["Entidades"]
+            AL["Aluno<br>• Matrícula única<br>• Nome<br>• Configuração curso"]
+            RE["Requerimento<br>• Controle de estado<br>• Validação aprovação<br>• Cálculos por modalidade"]
+            IR["ItemRequerimento<br>• Validação automática<br>• Controle documentação<br>• Status específico"]
+        end
         
-        RE --> AL
-        RE --> IR
-        IR --> AT
-        IR --> DC
+        subgraph ValueObjects ["Value Objects"]
+            AT["Atividade<br>• 41 atividades regulamento<br>• Limites por atividade<br>• Documentação obrigatória"]
+            CC["CursoConfig<br>• Horas mínimas (200h TADS)<br>• Percentuais modalidade<br>• Validação distribuição"]
+            DC["DocumentoComprobatorio<br>• Anexos obrigatórios<br>• Validação formato<br>• Data upload"]
+        end
+        
+        subgraph Enums ["Enums"]
+            MOD["Modalidade<br>• ENSINO (40%)<br>• PESQUISA (40%)<br>• EXTENSÃO (40%)<br>• COMPLEMENTAÇÃO (20%)"]
+            SI["StatusItem<br>• Estados específicos<br>• Aprovação parcial"]
+            SR["StatusRequerimento<br>• Controle fluxo<br>• Editabilidade"]
+        end
     end
 
-    subgraph ApplicationLayer ["🚀 Application Layer"]
-        SAC[SistemaAtividadesComplementares<br/>main]
-    end
-
-    MM --> F
-    MA --> F
-    F --> ARI
-    F --> GPI
+    %% ─────────────────── Relacionamentos ───────────────
     SAC --> MM
     SAC --> F
-    F -.-> AL
-    F -.-> RE
+    MM  --> F
+    MA  --> F
+    F   --> ARI
+    F   --> GPI
+    F   -.-> RE
+    F   -.-> AL
 
+    %% ─────────────────── Estilos ───────────────────────
+    classDef applicationStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px
     classDef presentationStyle fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
     classDef serviceStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
     classDef repositoryStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
     classDef domainStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    classDef applicationStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px
 
+    class SAC applicationStyle
     class MT,MM,MA presentationStyle
     class F,GPI,GPC serviceStyle
     class ARI,ARM repositoryStyle
-    class AL,RE,IR,AT,DC domainStyle
-    class SAC applicationStyle
+    class AL,RE,IR,AT,CC,DC,MOD,SI,SR domainStyle
 ```
 
-**Princípios Arquiteturais Aplicados:**
-- 🎯 **Dependency Rule**: Dependências apontam sempre para o centro (domínio)
-- 🔄 **Inversão de Controle**: Interfaces definem contratos, implementações são injetadas
-- 🛡️ **Isolamento do Domínio**: Core business isolado de frameworks e infraestrutura
-- 📦 **Single Responsibility**: Cada componente tem uma responsabilidade clara
+## 🎯 Regras de Negócio Implementadas
 
-### 📋 Diagrama de Estados - Ciclo de Vida do Requerimento
+### 📋 Conformidade com Regulamento IFSC
 
-```mermaid
-stateDiagram-v2
-    [*] --> Criado: new Requerimento(aluno)
-    
-    Criado --> Aberto: status = ABERTO
-    
-    state Aberto {
-        [*] --> AdicionandoItens
-        AdicionandoItens --> AdicionandoItens: adicionarItem()
-        AdicionandoItens --> RemovendoItens: removerItem()
-        RemovendoItens --> AdicionandoItens: adicionarItem()
-        AdicionandoItens --> [*]: usuário escolhe finalizar
-        RemovendoItens --> [*]: usuário escolhe finalizar
-    }
-    
-    Aberto --> Processando: processar()
-    
-    state Processando {
-        [*] --> ValidandoItens
-        ValidandoItens --> CalculandoHoras: validarAutomaticamente()
-        CalculandoHoras --> GerandoObservacoes: para cada item
-        GerandoObservacoes --> AtualizandoStatus: definir status final
-        AtualizandoStatus --> [*]: todos itens processados
-    }
-    
-    Processando --> Finalizado: status = FINALIZADO
-    
-    state Finalizado {
-        [*] --> ProntoParaParecer
-        ProntoParaParecer --> GerandoParecer: gerarParecer()
-        GerandoParecer --> ProntoParaParecer: parecer gerado
-        ProntoParaParecer --> [*]: sessão encerrada
-    }
-    
-    Finalizado --> [*]: fim do ciclo de vida
-    
-    note right of Aberto
-        Estado Editável:
-        ✅ Adicionar itens
-        ✅ Remover itens
-        ✅ Modificar dados
-        ❌ Gerar parecer
-    end note
-    
-    note right of Processando
-        Estado Transitório:
-        🔄 Validação automática
-        🔄 Cálculo de horas
-        🔄 Geração de observações
-        🔄 Definição de status
-    end note
-    
-    note right of Finalizado
-        Estado Somente Leitura:
-        ❌ Modificar dados
-        ✅ Consultar informações
-        ✅ Gerar pareceres
-        ✅ Visualizar resultados
-    end note
-```
+**Modalidades e Percentuais Máximos:**
+- **🎓 Ensino**: Máximo 40% do total de horas
+- **🔬 Pesquisa e Inovação**: Máximo 40% do total de horas  
+- **🤝 Extensão**: Máximo 40% do total de horas
+- **💼 Complementação**: Máximo 20% do total de horas
 
-**Estados e Transições Detalhadas:**
-- **🆕 Criado**: Estado inicial após instanciação
-- **📝 Aberto**: Permite edição e modificação de itens
-- **⚙️ Processando**: Executa validação automática de todos os itens
-- **✅ Finalizado**: Estado final, apenas consulta e geração de pareceres
+**Validação de Documentação:**
+- ✅ **Documentos Obrigatórios**: Atividades marcadas como obrigatórias
+- ✅ **Validação de Formato**: PDFs e imagens aceitos
+- ✅ **Controle de Anexos**: Sistema não permite finalização sem documentos obrigatórios (com confirmação)
 
-## 🎨 Princípios de Design e Padrões de Projeto
+**Limites Específicos por Atividade:**
+- 📚 **Disciplinas extras**: Até 80h
+- 🔬 **Iniciação científica**: Até 60h  
+- 📝 **Publicações**: Até 30h (artigos), 100h (livros)
+- 🎤 **Palestras/congressos**: Até 20h
+- 🏆 **Monitoria**: Até 70h
 
-### 🏛️ **Domain-Driven Design (DDD)**
-
-**Justificativa**: O domínio de atividades complementares possui regras de negócio complexas e específicas que devem ser centralizadas e protegidas. O DDD garante que essa complexidade seja adequadamente modelada e encapsulada.
-
-**Implementação Detalhada:**
+### ⚡ Algoritmo de Validação Automática
 
 ```java
-// Entidade Rica - ItemRequerimento
-public class ItemRequerimento {
-    // Comportamento central do domínio
-    public void validarAutomaticamente() {
-        int horasCalculadas = this.atividade.calcularHorasValidas(this.horasDeclaradas);
-        String observacao = gerarObservacaoAutomatica(horasCalculadas);
-        validarHoras(horasCalculadas, observacao);
+// Pseudocódigo da validação
+for (ItemRequerimento item : requerimento.getItens()) {
+    if (item.getAtividade().requerDocumento() && !item.possuiDocumento()) {
+        item.reprovar("Documentação obrigatória não anexada");
+    } else {
+        int horasValidas = min(item.getHorasDeclaradas(), item.getAtividade().getLimite());
+        item.validarHoras(horasValidas, gerarObservacao(horasValidas));
+    }
+}
+
+// Validação final de aprovação
+boolean aprovado = (totalHoras >= horasMinimasExigidas) && 
+                  (percentuaisPorModalidade.todos() <= limitesRegulamentares);
+```
+
+## 🚀 Instruções de Uso Atualizadas
+
+### 📋 Pré-requisitos
+
+- ☕ **Java 17+** (testado com Java 17)
+- 💾 **16MB de memória RAM** 
+- 🖥️ **Terminal com suporte UTF-8**
+
+### 🔧 Execução Rápida
+
+**1. Via IDE (Recomendado):**
+```java
+// Executar SistemaAtividadesComplementares.main()
+// Aluno pré-configurado: João Silva (202500789)
+// Curso: TADS com 200h mínimas
+```
+
+**2. Via Linha de Comando:**
+```bash
+javac -cp src src/com/mycompany/atividadescomplementares/*.java
+java -cp src com.mycompany.atividadescomplementares.SistemaAtividadesComplementares
+```
+
+### 📱 Fluxo de Uso Detalhado
+
+#### **1. Tela Inicial Atualizada**
+```
+=== SISTEMA DE ATIVIDADES COMPLEMENTARES - IFSC ===
+Aluno: João Silva
+Matrícula: 202500789
+Horas mínimas exigidas: 200h
+
+Limites por modalidade:
+- Atividades de Ensino: máximo 40%
+- Atividades de Pesquisa e Inovação: máximo 40%
+- Atividades de Extensão: máximo 40%
+- Atividades de Complementação Profissional: máximo 20%
+
+== Menu de Modalidades ==
+1) Ensino
+2) Pesquisa e Inovação
+3) Extensão
+4) Complementação
+5) Visualizar requerimento atual
+0) Finalizar e emitir parecer
+```
+
+#### **2. Seleção de Atividades com Documentação**
+```
+-- Atividades em Ensino --
+1) Disciplinas cursadas com aproveitamento, não previstas no currículo do curso                                                     (limite 80h) [DOC OBRIGATÓRIO]
+2) Semana acadêmica dos cursos, quando não obrigatória                         (limite 40h) [DOC OBRIGATÓRIO]  
+3) Participação em atividades de monitoria                                     (limite 70h) [DOC OBRIGATÓRIO]
+4) Atividades realizadas em laboratórios e/ou oficinas do Instituto           (limite 40h) [DOC OBRIGATÓRIO]
+...
+0) Voltar ao menu de modalidades
+Escolha a atividade (0-voltar): 3
+
+Atividade selecionada: Participação em atividades de monitoria
+Documentação necessária: Declaração de participação
+Limite máximo: 70h
+Horas declaradas para esta atividade: 50
+
+Deseja anexar documento agora? (s/n): s
+Nome do arquivo: declaracao_monitoria.pdf
+URL do documento: /documentos/monitoria/declaracao_monitoria.pdf
+Documento anexado com sucesso!
+Atividade adicionada ao requerimento.
+```
+
+#### **3. Visualização do Requerimento Atual**
+```
+=== REQUERIMENTO ATUAL ===
+1. Participação em atividades de monitoria (Atividades de Ensino) - 50h
+2. Participação em programa ou projeto de pesquisa relacionados a área (Atividades de Pesquisa e Inovação) - 30h
+3. Participação em congressos, jornadas, simpósios... (Atividades de Complementação Profissional) - 15h [SEM DOCUMENTO]
+
+Total de horas declaradas: 95h
+```
+
+#### **4. Validação de Documentação na Finalização**
+```
+ATENÇÃO: Existem atividades que requerem documentação obrigatória!
+Deseja continuar mesmo assim? (s/n): s
+
+=== PARECER DE VALIDAÇÃO ===
+Matrícula: 202500789
+Nome: João Silva
+Data emissão: 2025-01-15
+
+Atividade 1:
+  Descrição:       Participação em atividades de monitoria
+  Modalidade:      Atividades de Ensino
+  Horas declaradas: 50h
+  Limite Máximo:   70h
+  Horas validadas:  50h
+  Status:          Aprovado
+  Observação:      -- (sem ajuste)
+
+Atividade 2:
+  Descrição:       Participação em programa ou projeto de pesquisa relacionados a área
+  Modalidade:      Atividades de Pesquisa e Inovação
+  Horas declaradas: 30h
+  Limite Máximo:   60h
+  Horas validadas:  30h
+  Status:          Aprovado
+  Observação:      -- (sem ajuste)
+
+Atividade 3:
+  Descrição:       Participação em congressos, jornadas, simpósios, fóruns, seminários, encontros, palestras, festivais e similares
+  Modalidade:      Atividades de Complementação Profissional
+  Horas declaradas: 15h
+  Limite Máximo:   20h
+  Horas validadas:  0h
+  Status:          Reprovado
+  Observação:      Item reprovado: documentação comprobatória obrigatória não foi anexada
+
+=== RESUMO POR MODALIDADE ===
+Atividades de Ensino: 50h (62.5% - máx: 40%)
+Atividades de Pesquisa e Inovação: 30h (37.5% - máx: 40%)
+Atividades de Extensão: 0h (0.0% - máx: 40%)
+Atividades de Complementação Profissional: 0h (0.0% - máx: 20%)
+
+=== RESUMO GERAL ===
+Total de horas declaradas: 95h
+Total de horas validadas:  80h
+Horas mínimas exigidas:    200h
+RESULTADO FINAL: REPROVADO
+
+MOTIVOS DA REPROVAÇÃO:
+- Total de horas insuficiente
+- Excesso de horas na modalidade Atividades de Ensino
+```
+
+## 📊 Atividades Pré-cadastradas (Regulamento IFSC)
+
+### 🎓 Modalidade Ensino (10 atividades)
+| Código | Atividade | Limite | Doc. Obrigatória |
+|--------|-----------|--------|------------------|
+| ENS001 | Disciplinas cursadas com aproveitamento, não previstas no currículo | 80h | ✅ Certificado |
+| ENS002 | Semana acadêmica dos cursos, quando não obrigatória | 40h | ✅ Certificado |
+| ENS003 | Participação em atividades de monitoria | 70h | ✅ Declaração |
+| ENS004 | Atividades realizadas em laboratórios e/ou oficinas | 40h | ✅ Declaração |
+| ENS005 | Visita Técnica relacionada à área | 40h | ✅ Declaração |
+| ENS006 | Participação em cursos de qualificação na área afim | 80h | ✅ Certificado |
+| ENS007 | Participação como ouvintes em bancas de projetos integradores | 20h | ✅ Documento da banca |
+| ENS008 | Participação como ouvintes em bancas de TCC, dissertações ou teses | 20h | ✅ Documento da banca |
+| ENS009 | Desenvolvimento de material didático ou instrucional | 30h | ✅ Declaração |
+| ENS010 | Instrutor de cursos abertos à comunidade | 70h | ✅ Declaração |
+
+### 🔬 Modalidade Pesquisa e Inovação (12 atividades)
+| Código | Atividade | Limite | Doc. Obrigatória |
+|--------|-----------|--------|------------------|
+| PES001 | Participação em programa ou projeto de pesquisa | 60h | ✅ Declaração |
+| PES002 | Apresentação de projeto de pesquisa | 20h | ✅ Declaração |
+| PES003 | Autoria e coautoria em artigo publicado em Periódico | 30h | ✅ Capa do artigo |
+| PES004 | Livro na área afim | 100h | ✅ Ficha catalográfica |
+| PES005 | Capítulo de livro na área afim | 30h | ✅ Ficha catalográfica |
+| PES006 | Publicação em Anais de Evento Técnico Científico | 30h | ✅ Cópia do artigo |
+| PES007 | Apresentação de trabalho em Evento Técnico Científico | 20h | ✅ Certificado |
+| PES008 | Participação de Programa de Iniciação Científica | 60h | ✅ Declaração |
+| PES009 | Participação como palestrante, conferencista, ministrante | 60h | ✅ Certificado |
+| PES010 | Prêmios concedidos por instituições acadêmicas | 60h | ✅ Declaração |
+| PES011 | Participação na criação de Produto ou Processo Tecnológico | 200h | ✅ Registro propriedade |
+| PES012 | Participação em grupo de pesquisa na área | 60h | ✅ Declaração do líder |
+
+### 🤝 Modalidade Extensão (7 atividades)
+| Código | Atividade | Limite | Doc. Obrigatória |
+|--------|-----------|--------|------------------|
+| EXT001 | Participação em programa ou projeto de extensão | 60h | ✅ Declaração |
+| EXT002 | Apresentação de projeto de extensão | 20h | ✅ Declaração |
+| EXT003 | Participação em ações sociais cívicas e comunitárias | 40h | ✅ Declaração |
+| EXT004 | Texto em jornal ou revista da área | 40h | ✅ Texto |
+| EXT005 | Intercâmbio com instituições no Brasil ou exterior | 100h | ✅ Declaração |
+| EXT006 | Estágio não-obrigatório na área do curso | 100h | ✅ Declaração do empregador |
+| EXT007 | Exercício profissional com vínculo empregatício | 100h | ✅ Declaração ou Carteira |
+
+### 💼 Modalidade Complementação (11 atividades)
+| Código | Atividade | Limite | Doc. Obrigatória |
+|--------|-----------|--------|------------------|
+| COM001 | Participação em congressos, jornadas, simpósios, palestras | 20h | ✅ Declaração |
+| COM002 | Comissão organizadora de congressos, jornadas, simpósios | 20h | ✅ Declaração |
+| COM003 | Premiação em eventos relacionados ao curso | 30h | ✅ Declaração |
+| COM004 | Curso de língua estrangeira | 80h | ✅ Certificado |
+| COM005 | Premiação em atividades esportivas como representante IFSC | 60h | ✅ Declaração |
+| COM006 | Representação estudantil em colegiado, grêmio, centro acadêmico | 40h | ✅ Declaração |
+| COM007 | Representação de turma (inclui participação em conselhos de classe) | 30h | ✅ Declaração do Coordenador |
+| COM008 | Participação em Empresa Júnior | 40h | ✅ Declaração do dirigente |
+| COM009 | Classificação em concursos culturais | 20h | ✅ Certificado ou resultado |
+| COM010 | Participação em projetos sociais, trabalho voluntário | 20h | ✅ Declaração do responsável |
+| COM011 | Atividades socioculturais, artísticas e esportivas | 20h | ✅ Declaração do responsável |
+
+## 🎨 Princípios de Design e Padrões Implementados
+
+### 🏛️ **Domain-Driven Design (DDD) Aplicado**
+
+**Modelagem Rica do Domínio:**
+```java
+// Entidade Rica - Requerimento com comportamentos específicos
+public class Requerimento {
+    public boolean estaAprovado() {
+        CursoConfig config = this.aluno.obterCursoConfig();
+        Map<Modalidade, Integer> horasPorModalidade = calcularHorasPorModalidade();
+        int totalHoras = calcularTotalHorasValidadas();
+        
+        // Regra de negócio: validação completa conforme regulamento
+        return config.validarDistribuicaoHoras(horasPorModalidade, totalHoras);
     }
     
-    // Lógica de negócio encapsulada
-    private String gerarObservacaoAutomatica(int horasCalculadas) {
-        if (horasCalculadas < this.horasDeclaradas) {
-            return String.format("Horas declaradas (%dh) excedem o limite (%dh); ajustadas para %dh.",
-                    this.horasDeclaradas, this.atividade.obterLimiteDeHoras(), horasCalculadas);
+    public Map<Modalidade, Integer> calcularHorasPorModalidade() {
+        // Lógica específica para agrupar horas por modalidade
+        Map<Modalidade, Integer> resultado = new HashMap<>();
+        for (Modalidade modalidade : Modalidade.values()) {
+            int horas = this.itens.stream()
+                    .filter(item -> item.obterAtividade().eDaModalidade(modalidade))
+                    .mapToInt(ItemRequerimento::obterHorasValidadas)
+                    .sum();
+            resultado.put(modalidade, horas);
         }
-        return "-- (sem ajuste)";
+        return resultado;
     }
+}
+```
+
+**Value Objects Imutáveis:**
+```java
+// CursoConfig - configuração específica por curso
+public class CursoConfig {
+    private final String codigoCurso;
+    private final int horasMinimasTotal;
+    private final Map<Modalidade, Integer> horasMinimasPorModalidade;
     
-    // Invariantes protegidas
-    public void validarHoras(int horasValidadas, String observacao) {
-        if (horasValidadas < 0) {
-            throw new IllegalArgumentException("Horas validadas não podem ser negativas");
+    public boolean validarDistribuicaoHoras(Map<Modalidade, Integer> horasPorModalidade, int totalHoras) {
+        // Regra complexa: validação de percentuais por modalidade
+        for (Map.Entry<Modalidade, Integer> entry : horasPorModalidade.entrySet()) {
+            Modalidade modalidade = entry.getKey();
+            Integer horas = entry.getValue();
+            
+            double percentualAtual = (double) horas / totalHoras;
+            if (percentualAtual > modalidade.obterPercentualMaximo()) {
+                return false; // Excedeu limite da modalidade
+            }
         }
-        // ... mais validações e lógica de negócio
+        return totalHoras >= horasMinimasTotal;
     }
 }
 ```
 
-**Conceitos DDD Aplicados:**
-- **🏗️ Entities**: Aluno, ItemRequerimento (identidade única)
-- **💎 Value Objects**: DocumentoComprobatorio, Atividade (imutáveis)
-- **📦 Aggregates**: Requerimento (raiz de agregação)
-- **🏷️ Domain Services**: Validação automática de regras complexas
-- **🗣️ Ubiquitous Language**: Terminologia do domínio acadêmico respeitada
+**Linguagem Ubíqua Respeitada:**
+- ✅ **Requerimento** (não "Pedido" ou "Solicitação")
+- ✅ **Modalidades** (Ensino, Pesquisa, Extensão, Complementação)
+- ✅ **Horas Validadas** vs **Horas Declaradas**
+- ✅ **Documentação Comprobatória** (termo do regulamento)
+- ✅ **Parecer de Validação** (documento oficial)
 
-**Benefícios Obtidos:**
-- ✅ **Proteção de Invariantes**: Regras sempre respeitadas
-- ✅ **Encapsulamento**: Lógica concentrada onde pertence
-- ✅ **Linguagem Clara**: Código reflete o domínio real
-- ✅ **Evolução Controlada**: Mudanças nas regras centralizadas
-
-### 🗃️ **Repository Pattern**
-
-**Justificativa**: Abstrai completamente o mecanismo de persistência, permitindo diferentes implementações (memória, banco de dados, arquivos, APIs externas) sem impactar as regras de negócio ou lógica de aplicação.
+### 🔄 **Strategy Pattern para Geração de Pareceres**
 
 ```java
-// Contrato bem definido
-public interface AtividadeRepository {
-    List<Atividade> buscarPorModalidade(Modalidade modalidade);
-    Optional<Atividade> buscarPorCodigo(String codigo);
-    List<Atividade> buscarTodas();
-}
-
-// Implementação atual (memória)
-public class AtividadeRepositoryMemoria implements AtividadeRepository {
-    private final Map<String, Atividade> atividades = new HashMap<>();
-    
-    @Override
-    public List<Atividade> buscarPorModalidade(Modalidade modalidade) {
-        return atividades.values().stream()
-                .filter(atividade -> atividade.eDaModalidade(modalidade))
-                .collect(Collectors.toList());
-    }
-}
-
-// Futuras implementações possíveis
-// class AtividadeRepositoryJPA implements AtividadeRepository
-// class AtividadeRepositoryMongoDB implements AtividadeRepository  
-// class AtividadeRepositoryAPI implements AtividadeRepository
-```
-
-### 🎭 **Strategy Pattern**
-
-**Justificativa**: O sistema precisa gerar pareceres em diferentes formatos. O Strategy permite adicionar novos formatos sem modificar código existente, seguindo o princípio Open/Closed.
-
-```java
-// Interface estratégica
+// Interface estratégica flexível
 public interface GeradorParecer {
     String gerarParecer(Requerimento requerimento);
 }
 
-// Estratégia atual - Console
+// Implementação atual - Console detalhado
 public class GeradorParecerConsole implements GeradorParecer {
     @Override
     public String gerarParecer(Requerimento requerimento) {
         StringBuilder parecer = new StringBuilder();
+        
+        // Cabeçalho oficial
         parecer.append("=== PARECER DE VALIDAÇÃO ===\n");
-        // ... formatação específica para console
+        
+        // Detalhamento por atividade
+        List<ItemRequerimento> itens = requerimento.obterItens();
+        for (int i = 0; i < itens.size(); i++) {
+            ItemRequerimento item = itens.get(i);
+            parecer.append(formatarItem(item, i + 1));
+        }
+        
+        // Resumo por modalidade com percentuais
+        parecer.append(formatarResumoModalidades(requerimento));
+        
+        // Resultado final com justificativas
+        parecer.append(formatarResultadoFinal(requerimento));
+        
         return parecer.toString();
+    }
+    
+    private String formatarResumoModalidades(Requerimento requerimento) {
+        StringBuilder resumo = new StringBuilder();
+        resumo.append("=== RESUMO POR MODALIDADE ===\n");
+        
+        Map<Modalidade, Integer> horasPorModalidade = requerimento.calcularHorasPorModalidade();
+        int totalHoras = requerimento.calcularTotalHorasValidadas();
+        
+        for (Modalidade modalidade : Modalidade.values()) {
+            int horas = horasPorModalidade.getOrDefault(modalidade, 0);
+            double percentual = totalHoras > 0 ? (double) horas / totalHoras * 100 : 0;
+            double percentualMaximo = modalidade.obterPercentualMaximo() * 100;
+            
+            resumo.append(String.format("%s: %dh (%.1f%% - máx: %.0f%%)\n",
+                    modalidade.descrever(), horas, percentual, percentualMaximo));
+        }
+        
+        return resumo.toString();
     }
 }
 
-// Futuras estratégias sem modificar código existente
+// Futuras implementações sem modificar código existente
 public class GeradorParecerPDF implements GeradorParecer {
     @Override
     public String gerarParecer(Requerimento requerimento) {
-        // Usar iText ou Apache PDFBox
-        return "caminho/para/arquivo.pdf";
+        // Usar bibliotecas como iText ou Apache PDFBox
+        // Gerar PDF oficial com formatação institucional
+        return "parecer_" + requerimento.obterAluno().obterMatricula() + ".pdf";
     }
 }
 
-public class GeradorParecerEmail implements GeradorParecer {
-    @Override  
+public class GeradorParecerHTML implements GeradorParecer {
+    @Override
     public String gerarParecer(Requerimento requerimento) {
-        // Usar JavaMail API
-        return "Email enviado para: " + requerimento.obterAluno().obterMatricula();
+        // Gerar HTML responsivo para visualização web
+        // Com gráficos e interatividade
+        return "<html>...</html>";
     }
 }
 ```
 
-### 🏢 **Facade Pattern**
+### 🗃️ **Repository Pattern com Dados Reais**
 
-**Justificativa**: A coordenação entre repository, geração de pareceres e processamento de requerimentos é complexa. O Facade simplifica essas operações em uma interface coesa e intuitiva.
+```java
+// Implementação com todas as atividades do regulamento IFSC
+public class AtividadeRepositoryMemoria implements AtividadeRepository {
+    private final Map<String, Atividade> atividades = new HashMap<>();
+
+    public AtividadeRepositoryMemoria() {
+        inicializarAtividadesRegulamento();
+    }
+
+    private void inicializarAtividadesRegulamento() {
+        // Modalidade ENSINO - 10 atividades
+        adicionarAtividadesEnsino();
+        
+        // Modalidade PESQUISA - 12 atividades  
+        adicionarAtividadesPesquisa();
+        
+        // Modalidade EXTENSAO - 7 atividades
+        adicionarAtividadesExtensao();
+        
+        // Modalidade COMPLEMENTACAO - 11 atividades
+        adicionarAtividadesComplementacao();
+    }
+    
+    private void adicionarAtividadesEnsino() {
+        // Exemplos de atividades reais do regulamento
+        atividades.put("ENS001", new Atividade(
+            "ENS001", 
+            "Disciplinas cursadas com aproveitamento, não previstas no currículo do curso", 
+            80, 
+            Modalidade.ENSINO, 
+            "Certificado ou declaração de conclusão", 
+            true // Documentação obrigatória
+        ));
+        
+        atividades.put("ENS003", new Atividade(
+            "ENS003", 
+            "Participação em atividades de monitoria", 
+            70, 
+            Modalidade.ENSINO, 
+            "Declaração de participação", 
+            true
+        ));
+        // ... mais atividades
+    }
+}
+
+// Flexibilidade para futuras implementações
+public class AtividadeRepositoryAPI implements AtividadeRepository {
+    private final String baseUrl;
+    
+    @Override
+    public List<Atividade> buscarPorModalidade(Modalidade modalidade) {
+        // Buscar atividades via API REST
+        // Permite atualizações dinâmicas do regulamento
+        return httpClient.get(baseUrl + "/atividades?modalidade=" + modalidade.name());
+    }
+}
+```
+
+### 📋 **Template Method Pattern Refinado**
+
+```java
+public abstract class MenuTemplate {
+    // Template method - estrutura invariável
+    public final void executar() {
+        inicializar();           // Configuração específica
+        while (deveExecutar()) { // Condição de parada específica
+            exibirOpcoes();      // Interface específica
+            int opcao = lerOpcao();  // Entrada padronizada
+            processarOpcao(opcao);   // Lógica específica
+        }
+        finalizar();             // Limpeza específica
+    }
+    
+    // Pontos de extensão bem definidos
+    protected abstract void inicializar();
+    protected abstract boolean deveExecutar();
+    protected abstract void exibirOpcoes();
+    protected abstract void processarOpcao(int opcao);
+    
+    // Comportamento padrão reutilizável
+    protected int lerOpcao() {
+        while (!scanner.hasNextInt()) {
+            System.out.print("Por favor, digite um número válido: ");
+            scanner.next();
+        }
+        return scanner.nextInt();
+    }
+    
+    protected void finalizar() {
+        // Comportamento padrão: nada a fazer
+    }
+}
+
+// Implementação específica - Menu com informações do regulamento
+public class MenuModalidades extends MenuTemplate {
+    @Override
+    protected void inicializar() {
+        System.out.println("=== SISTEMA DE ATIVIDADES COMPLEMENTARES - IFSC ===");
+        System.out.println("Aluno: " + requerimento.obterAluno().obterNome());
+        System.out.println("Matrícula: " + requerimento.obterAluno().obterMatricula());
+        System.out.println("Horas mínimas exigidas: " + 
+            requerimento.obterAluno().obterCursoConfig().obterHorasMinimasTotal() + "h");
+        exibirLimitesModalidade();
+    }
+    
+    private void exibirLimitesModalidade() {
+        System.out.println("\nLimites por modalidade:");
+        for (Modalidade modalidade : Modalidade.values()) {
+            System.out.printf("- %s: máximo %.0f%%\n",
+                    modalidade.descrever(),
+                    modalidade.obterPercentualMaximo() * 100);
+        }
+    }
+}
+```
+
+### 🏢 **Facade Pattern para Operações Complexas**
 
 ```java
 public class AtividadeComplementarFacade {
     private final AtividadeRepository atividadeRepository;
     private final GeradorParecer geradorParecer;
     
-    public AtividadeComplementarFacade(AtividadeRepository repository, GeradorParecer gerador) {
-        this.atividadeRepository = repository;
-        this.geradorParecer = gerador;
+    // Operação complexa: validação completa de documentação
+    public boolean validarDocumentacaoObrigatoria(Requerimento requerimento) {
+        return requerimento.obterItens().stream()
+                .filter(item -> item.obterAtividade().requerDocumento()) // Apenas obrigatórias
+                .allMatch(ItemRequerimento::possuiDocumento);           // Todas devem ter documento
     }
     
-    // Operação complexa simplificada
+    // Operação complexa: geração de parecer com processamento automático
     public String gerarParecer(Requerimento requerimento) {
-        // 1. Verifica estado do requerimento
+        // 1. Verifica se já foi processado
         if (!requerimento.obterStatus().estaFinalizado()) {
-            // 2. Processa automaticamente se necessário
+            // 2. Processa automaticamente todos os itens
             requerimento.processar();
         }
+        
         // 3. Gera parecer usando estratégia configurada
         return geradorParecer.gerarParecer(requerimento);
     }
@@ -684,542 +870,92 @@ public class AtividadeComplementarFacade {
 }
 ```
 
-### 📋 **Template Method Pattern**
+### 💎 **SOLID Principles Implementados**
 
-**Justificativa**: Todos os menus compartilham a mesma estrutura de execução (inicializar → loop → finalizar), mas diferem nos detalhes específicos. O Template Method elimina duplicação e garante consistência.
-
-```java
-public abstract class MenuTemplate {
-    // Template method - estrutura imutável
-    public final void executar() {
-        inicializar();
-        while (deveExecutar()) {
-            exibirOpcoes();
-            int opcao = lerOpcao();
-            processarOpcao(opcao);
-        }
-        finalizar();
-    }
-    
-    // Pontos de variação para subclasses
-    protected abstract void inicializar();
-    protected abstract boolean deveExecutar();
-    protected abstract void exibirOpcoes();
-    protected abstract int lerOpcao();
-    protected abstract void processarOpcao(int opcao);
-    protected abstract void finalizar();
-}
-
-// Implementação específica - Menu de Modalidades
-public class MenuModalidades extends MenuTemplate {
-    @Override
-    protected void exibirOpcoes() {
-        System.out.println("== Menu de Modalidades ==");
-        System.out.println("1) Ensino");
-        System.out.println("2) Pesquisa");
-        // ... outras opções
-    }
-    
-    @Override
-    protected void processarOpcao(int opcao) {
-        switch (opcao) {
-            case 1 -> new MenuAtividades(scanner, facade, requerimento, ENSINO).executar();
-            // ... outros casos
-        }
-    }
-}
-```
-
-### 💎 **Princípios SOLID Aplicados**
-
-#### **S - Single Responsibility Principle (Responsabilidade Única)**
-
-Cada classe possui uma única razão para existir e mudar:
+#### **Single Responsibility - Responsabilidades Bem Definidas**
 
 ```java
-// ✅ Responsabilidade: Gerar pareceres em formato console
+// ✅ APENAS validação automática de itens
+public class ItemRequerimento {
+    public void validarAutomaticamente() {
+        if (this.atividade.requerDocumento() && !possuiDocumento()) {
+            reprovar("Item reprovado: documentação comprobatória obrigatória não foi anexada");
+            return;
+        }
+        
+        int horasCalculadas = this.atividade.calcularHorasValidas(this.horasDeclaradas);
+        String observacao = gerarObservacaoAutomatica(horasCalculadas);
+        validarHoras(horasCalculadas, observacao);
+    }
+}
+
+// ✅ APENAS configuração específica de curso
+public class CursoConfig {
+    public boolean validarDistribuicaoHoras(Map<Modalidade, Integer> horasPorModalidade, int totalHoras) {
+        // Lógica específica de validação por curso
+    }
+}
+
+// ✅ APENAS geração de pareceres formatados
 public class GeradorParecerConsole implements GeradorParecer {
-    @Override
     public String gerarParecer(Requerimento requerimento) {
-        // Única responsabilidade: formatação console
+        // Apenas formatação e apresentação
     }
-}
-
-// ✅ Responsabilidade: Armazenar e recuperar atividades
-public class AtividadeRepositoryMemoria implements AtividadeRepository {
-    // Única responsabilidade: persistência em memória
-}
-
-// ✅ Responsabilidade: Representar um estudante
-public class Aluno {
-    // Única responsabilidade: dados e comportamentos do aluno
 }
 ```
 
-#### **O - Open/Closed Principle (Aberto/Fechado)**
-
-Sistema aberto para extensão, fechado para modificação:
+#### **Open/Closed - Extensão sem Modificação**
 
 ```java
-// ✅ Extensível sem modificação
+// ✅ Sistema aberto para novos tipos de gerador
 interface GeradorParecer {
     String gerarParecer(Requerimento requerimento);
 }
 
-// ✅ Nova funcionalidade sem alterar código existente
-class GeradorParecerPDF implements GeradorParecer { ... }
+// ✅ Novas implementações sem alterar código existente
 class GeradorParecerEmail implements GeradorParecer { ... }
+class GeradorParecerXML implements GeradorParecer { ... }
+class GeradorParecerJSON implements GeradorParecer { ... }
 
-// ✅ Cliente permanece inalterado
-AtividadeComplementarFacade facade = new AtividadeComplementarFacade(
-    repository, 
-    new GeradorParecerPDF() // Troca transparente
-);
-```
-
-#### **L - Liskov Substitution Principle (Substituição de Liskov)**
-
-Subtipos são perfeitamente substituíveis pelos tipos base:
-
-```java
-// ✅ Qualquer implementação funciona identicamente
-AtividadeRepository repo1 = new AtividadeRepositoryMemoria();
-AtividadeRepository repo2 = new AtividadeRepositoryJPA(); // futuro
-AtividadeRepository repo3 = new AtividadeRepositoryFile(); // futuro
-
-// ✅ Facade funciona com qualquer implementação
-AtividadeComplementarFacade facade = new AtividadeComplementarFacade(
-    repo1, // ou repo2, ou repo3
-    geradorParecer
-);
-
-// ✅ Comportamento idêntico garantido
-List<Atividade> atividades = facade.listarAtividadesPorModalidade(ENSINO);
-```
-
-#### **I - Interface Segregation Principle (Segregação de Interface)**
-
-Interfaces específicas e focadas, sem métodos desnecessários:
-
-```java
-// ✅ Interface focada apenas em atividades
+// ✅ Sistema aberto para novos repositórios  
 interface AtividadeRepository {
     List<Atividade> buscarPorModalidade(Modalidade modalidade);
-    Optional<Atividade> buscarPorCodigo(String codigo);
-    List<Atividade> buscarTodas();
-    // Não possui métodos de outros domínios
 }
 
-// ✅ Interface focada apenas em geração de pareceres
-interface GeradorParecer {
-    String gerarParecer(Requerimento requerimento);
-    // Não possui métodos de persistência ou validação
-}
+class AtividadeRepositoryBancoDados implements AtividadeRepository { ... }
+class AtividadeRepositoryWebService implements AtividadeRepository { ... }
 ```
 
-#### **D - Dependency Inversion Principle (Inversão de Dependência)**
-
-Módulos de alto nível não dependem de módulos de baixo nível. Ambos dependem de abstrações:
+#### **Dependency Inversion - Inversão Completa**
 
 ```java
-// ✅ Facade depende de abstrações, não implementações
+// ✅ Módulo de alto nível depende apenas de abstrações
 public class AtividadeComplementarFacade {
-    private final AtividadeRepository atividadeRepository;    // Interface
-    private final GeradorParecer geradorParecer;            // Interface
+    private final AtividadeRepository repository;     // Abstração
+    private final GeradorParecer geradorParecer;     // Abstração
     
-    // ✅ Inversão através de injeção de dependência
-    public AtividadeComplementarFacade(
-        AtividadeRepository repository,  // Abstração injetada
-        GeradorParecer gerador          // Abstração injetada
-    ) {
-        this.atividadeRepository = repository;
+    // ✅ Inversão por injeção de dependência
+    public AtividadeComplementarFacade(AtividadeRepository repository, GeradorParecer gerador) {
+        this.repository = repository;
         this.geradorParecer = gerador;
     }
 }
 
 // ✅ Configuração no ponto mais alto (main)
 public static void main(String[] args) {
-    // Implementações concretas criadas aqui
+    // Implementações concretas criadas no bootstrap
     AtividadeRepository repository = new AtividadeRepositoryMemoria();
     GeradorParecer gerador = new GeradorParecerConsole();
     
-    // Injeção manual (futuro: Spring IoC)
+    // Injeção manual (em produção: Spring IoC, Guice, etc.)
     AtividadeComplementarFacade facade = 
         new AtividadeComplementarFacade(repository, gerador);
+        
+    // Sistema configurado e pronto
+    CursoConfig cursoConfig = new CursoConfig("TADS", 200);
+    Aluno aluno = new Aluno("202500789", "João Silva", cursoConfig);
+    Requerimento requerimento = new Requerimento(aluno);
+    
+    new MenuModalidades(scanner, facade, requerimento).executar();
 }
 ```
-
-### 🏗️ **Clean Architecture (Arquitetura Limpa)**
-
-**Justificativa**: Protege o domínio de mudanças externas (frameworks, UI, banco de dados) e garante que as regras de negócio sejam testáveis independentemente da infraestrutura.
-
-**Estrutura de Dependências (The Dependency Rule):**
-
-```
-🏛️ Domain          ← 🗃️ Repository     ← ⚙️ Service      ← 🖥️ Presentation
-(Entities/VOs)       (Interfaces)        (Use Cases)      (UI/Controllers)
-     ↑                    ↑                   ↑                  ↑
-(Core Business)      (Data Access)      (Application)      (External)
-```
-
-**Camadas e Responsabilidades:**
-
-1. **🏛️ Domain (Núcleo)**:
-   - Entidades de negócio (Aluno, Requerimento, etc.)
-   - Value Objects (DocumentoComprobatorio)
-   - Regras de negócio puras
-   - Não depende de nada externo
-
-2. **🗃️ Repository (Acesso a Dados)**:
-   - Interfaces definidas no domínio
-   - Implementações na infraestrutura
-   - Abstração completa da persistência
-
-3. **⚙️ Service (Aplicação)**:
-   - Casos de uso específicos
-   - Coordenação entre componentes
-   - Implementação de workflows
-
-4. **🖥️ Presentation (Interface)**:
-   - Adaptadores para entrada/saída
-   - Formatação e validação de dados
-   - Não contém lógica de negócio
-
-### 🌟 **Outros Padrões Aplicados**
-
-#### **Value Object Pattern**
-
-```java
-// Imutabilidade e igualdade por valor
-public class DocumentoComprobatorio {
-    private final String nomeArquivo;
-    private final String url;
-    private final LocalDate dataUpload;
-    
-    // Construtor valida invariantes
-    public DocumentoComprobatorio(String nomeArquivo, String url) {
-        if (nomeArquivo == null || nomeArquivo.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome do arquivo é obrigatório");
-        }
-        // ... validações
-        this.nomeArquivo = nomeArquivo.trim();
-        this.url = url.trim();
-        this.dataUpload = LocalDate.now();
-    }
-    
-    // Igualdade por valor, não por referência
-    @Override
-    public boolean equals(Object obj) {
-        // Compara valores, não identidade
-    }
-}
-```
-
-#### **Enum com Comportamentos**
-
-```java
-public enum StatusRequerimento {
-    ABERTO("Aberto para edição"),
-    EM_AVALIACAO("Em avaliação pelo coordenador"), 
-    FINALIZADO("Avaliação concluída");
-    
-    private final String descricao;
-    
-    // Comportamentos específicos do domínio
-    public boolean podeSerEditado() {
-        return this == ABERTO;
-    }
-    
-    public boolean estaFinalizado() {
-        return this == FINALIZADO;
-    }
-}
-```
-
-## 🚀 Instruções de Uso Completas
-
-### 📋 Pré-requisitos do Sistema
-
-**Requisitos Obrigatórios:**
-- ☕ **Java 23** (JDK instalado e configurado)
-- 💾 **8MB de memória RAM disponível** 
-- 🖥️ **Terminal/Prompt de comando** com suporte a UTF-8
-- 📁 **50MB de espaço em disco** para código-fonte
-
-**Requisitos Opcionais para Desenvolvimento:**
-- 📦 **Maven 3.8+** (para build automatizado)
-- 🔧 **IDE Java** (IntelliJ IDEA, Eclipse, VS Code)
-- 🐙 **Git** (para controle de versão)
-
-**Verificação dos Pré-requisitos:**
-```bash
-# Verificar versão do Java
-java -version
-
-# Verificar JAVA_HOME (se necessário)
-echo $JAVA_HOME
-
-# Verificar Maven (opcional)
-mvn -version
-```
-
-### 🔧 Instalação e Configuração Detalhada
-
-#### **Usando IDE (Recomendado para Desenvolvimento)**
-
-1. **Baixe o projeto**
-   ```bash
-   # Via Git
-   git clone https://github.com/SorayaYF/sistema-atividades-complementares.git](https://github.com/SorayaYF/Atividades-Complementares.git)
-   cd sistema-atividades-complementares
-   
-   # Ou baixe o ZIP e extraia
-   ```
-
-2. **IntelliJ IDEA**:
-   - `File` → `Open` → Selecionar pasta do projeto
-   - Aguardar indexação automática
-   - `Run` → `Run 'SistemaAtividadesComplementares.main()'`
-
-3. **Eclipse**:
-   - `File` → `Import` → `Existing Projects into Workspace`
-   - Selecionar pasta do projeto
-   - Clicar com botão direito na classe main → `Run As` → `Java Application`
-
-4. **VS Code**:
-   - Instalar extensão "Extension Pack for Java"
-   - `File` → `Open Folder` → Selecionar pasta do projeto
-   - Pressionar `F5` ou usar o menu `Run`
-
-### 📱 Guia de Uso Passo a Passo
-
-#### **1. Iniciando o Sistema**
-
-Ao executar a aplicação, você verá a tela de boas-vindas:
-
-```
-Matrícula do aluno: 202500789
-
-== Menu de Modalidades ==
-1) Ensino
-2) Pesquisa
-3) Extensão
-4) Complementação
-0) Finalizar e emitir parecer
-Escolha a modalidade (0-finalizar): _
-```
-
-**Informações Importantes:**
-- 🎓 **Aluno Pré-configurado**: Sistema inicia com aluno de teste
-- 🔢 **Entrada Numérica**: Digite apenas números das opções
-- ❌ **Validação Automática**: Entradas inválidas são rejeitadas
-- 🔄 **Navegação Cíclica**: Pode voltar aos menus anteriores
-
-#### **2. Selecionando Modalidades**
-
-**Digite o número correspondente à modalidade desejada:**
-
-- **`1` - 🎓 Ensino**: Atividades didáticas e pedagógicas
-  - Monitoria de disciplinas
-  - Aulas de reforço e tutoria
-  - Estágios docentes supervisionados
-
-- **`2` - 🔬 Pesquisa**: Atividades científicas e investigação
-  - Iniciação científica (PIBIC/PIBITI)
-  - Publicações e apresentações
-  - Participação em grupos de pesquisa
-
-- **`3` - 🤝 Extensão**: Atividades comunitárias e sociais
-  - Projetos sociais e comunitários
-  - Cursos para a comunidade externa
-  - Ações de responsabilidade social
-
-- **`4` - 💼 Complementação**: Atividades profissionalizantes
-  - Palestras e workshops técnicos
-  - Visitas técnicas e industriais
-  - Cursos de capacitação profissional
-
-- **`0` - ✅ Finalizar**: Processa todas as atividades e gera parecer
-
-#### **3. Escolhendo Atividades Específicas**
-
-Exemplo selecionando **Ensino** (opção 1):
-
-```
--- Atividades em Ensino --
-1) Ministrar aula de reforço    (limite 10h)
-2) Monitoria de laboratório     (limite 15h)
-0) Voltar ao menu de modalidades
-Escolha a atividade (0-voltar): _
-```
-
-**Elementos da Interface:**
-- 📋 **Descrição Clara**: Nome específico da atividade
-- ⏱️ **Limite Visível**: Máximo de horas que pode ser validado
-- 🔙 **Navegação**: Opção 0 sempre retorna ao menu anterior
-- 📊 **Organização**: Atividades agrupadas por relevância
-
-#### **4. Declarando Horas de Atividades**
-
-Após selecionar uma atividade (ex: opção 1):
-
-```
-Horas declaradas para 'Ministrar aula de reforço': 12
-Atividade adicionada ao requerimento.
-
--- Atividades em Ensino --
-1) Ministrar aula de reforço    (limite 10h)
-2) Monitoria de laboratório     (limite 15h)
-0) Voltar ao menu de modalidades
-Escolha a atividade (0-voltar): _
-```
-
-**Validações Automáticas do Sistema:**
-- ✅ **Números Positivos**: Apenas valores maiores que zero
-- ✅ **Entrada Numérica**: Rejeita texto e caracteres especiais
-- ✅ **Limite Respeitado**: Sistema ajustará automaticamente no parecer
-- ✅ **Confirmação**: Mensagem confirma adição bem-sucedida
-
-**Casos de Uso Comuns:**
-
-**Cenário A - Horas Dentro do Limite:**
-```
-Entrada: 8 horas para Monitoria (limite 15h)
-Resultado: 8 horas validadas
-Observação: "-- (sem ajuste)"
-```
-
-**Cenário B - Horas Acima do Limite:**
-```
-Entrada: 12 horas para Aula de reforço (limite 10h)
-Resultado: 10 horas validadas  
-Observação: "Horas declaradas (12h) excedem o limite (10h); ajustadas para 10h."
-```
-
-#### **5. Navegando Entre Modalidades**
-
-O sistema permite registrar atividades em múltiplas modalidades:
-
-```
-== Menu de Modalidades ==
-1) Ensino       ← Já registrou atividades
-2) Pesquisa     ← Pode registrar mais  
-3) Extensão     ← Pode registrar mais
-4) Complementação ← Pode registrar mais
-0) Finalizar e emitir parecer
-```
-
-**Fluxo Recomendado:**
-1. 📝 **Planeje suas atividades** antes de iniciar
-2. 🎯 **Registre por modalidade** de forma organizada
-3. 🔄 **Navegue livremente** entre modalidades
-4. ✅ **Finalize quando completo** para gerar parecer
-
-#### **6. Finalizando e Obtendo o Parecer**
-
-No menu principal, digite `0` para processar e gerar o parecer:
-
-```
-=== PARECER DE VALIDAÇÃO ===
-Matrícula: 202500789
-Data emissão: 2025-01-15
-
-Atividade 1:
-  Descrição:       Ministrar aula de reforço
-  Horas declaradas: 12h
-  Limite Máximo:    10h
-  Horas validadas:  10h
-  Observação:      Horas declaradas (12h) excedem o limite (10h); ajustadas para 10h.
-
-Atividade 2:
-  Descrição:       Monitoria de laboratório
-  Horas declaradas: 8h
-  Limite Máximo:   15h
-  Horas validadas:  8h
-  Observação:      -- (sem ajuste)
-
-Atividade 3:
-  Descrição:       Visita técnica
-  Horas declaradas: 10h
-  Limite Máximo:    8h
-  Horas validadas:  8h
-  Observação:      Horas declaradas (10h) excedem o limite (8h); ajustadas para 8h.
-
-Resumo geral:
-  Total de horas declaradas: 30h
-  Total de horas validadas:  26h
-
-Sistema finalizado.
-```
-
-**Estrutura do Parecer:**
-- 📋 **Cabeçalho**: Identificação e data de emissão
-- 📊 **Detalhamento**: Cada atividade com suas informações
-- 🔍 **Observações**: Explicações específicas de cada validação
-- 📈 **Resumo**: Totalizações para análise rápida
-- ✅ **Finalização**: Confirmação de encerramento
-
-### 🎯 Exemplos Práticos Detalhados
-
-#### **Exemplo 1: Estudante de Engenharia**
-
-**Atividades Declaradas:**
-```
-Ensino:
-- Monitoria de Cálculo: 20h (limite 15h) → 15h validadas
-- Tutoria de Física: 8h (limite 10h) → 8h validadas
-
-Pesquisa:
-- Iniciação Científica: 35h (limite 30h) → 30h validadas
-- Apresentação em Congresso: 5h (limite 20h) → 5h validadas
-
-Complementação:
-- Workshop de AutoCAD: 12h (limite 5h) → 5h validadas
-- Palestra sobre Sustentabilidade: 3h (limite 5h) → 3h validadas
-
-Total: 83h declaradas → 66h validadas
-```
-
-#### **Exemplo 2: Estudante de Medicina**
-
-**Atividades Declaradas:**
-```
-Extensão:
-- Projeto Saúde na Comunidade: 40h (limite 25h) → 25h validadas
-- Curso de Primeiros Socorros: 15h (limite 12h) → 12h validadas
-
-Pesquisa:
-- PIBIC em Cardiologia: 25h (limite 30h) → 25h validadas
-
-Complementação:
-- Simpósio de Medicina: 6h (limite 5h) → 5h validadas
-- Visita ao Hospital Universitário: 4h (limite 8h) → 4h validadas
-
-Total: 90h declaradas → 71h validadas
-```
-
-### 📊 Atividades Pré-cadastradas no Sistema
-
-#### **🎓 Modalidade Ensino**
-| Código | Atividade | Limite (horas) |
-|--------|-----------|----------------|
-| ENS001 | Ministrar aula de reforço | 10 |
-| ENS002 | Monitoria de laboratório | 15 |
-
-#### **🔬 Modalidade Pesquisa**
-| Código | Atividade | Limite (horas) |
-|--------|-----------|----------------|
-| PES001 | Iniciação científica | 30 |
-| PES002 | Publicação de artigo | 20 |
-
-#### **🤝 Modalidade Extensão**
-| Código | Atividade | Limite (horas) |
-|--------|-----------|----------------|
-| EXT001 | Projeto social | 25 |
-| EXT002 | Curso para comunidade | 12 |
-
-#### **💼 Modalidade Complementação**
-| Código | Atividade | Limite (horas) |
-|--------|-----------|----------------|
-| COM001 | Palestra técnica | 5 |
-| COM002 | Visita técnica | 8 |
