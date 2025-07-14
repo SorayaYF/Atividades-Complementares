@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public abstract class MenuTemplate {
     protected final Scanner scanner;
-    
+
     public MenuTemplate(Scanner scanner) {
         this.scanner = scanner;
     }
-    
+
     public final void executar() {
         inicializar();
         while (deveExecutar()) {
@@ -18,7 +18,7 @@ public abstract class MenuTemplate {
         }
         finalizar();
     }
-    
+
     protected abstract void inicializar();
     protected abstract boolean deveExecutar();
     protected abstract void exibirOpcoes();

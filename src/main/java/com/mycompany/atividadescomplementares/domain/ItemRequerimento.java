@@ -38,7 +38,21 @@ public class ItemRequerimento {
         this.documento = new DocumentoComprobatorio(nomeArquivo, url);
     }
 
+    public void validarPorAvaliador(int horasValidadas, String observacao) {
+        if (this.atividade.requerDocumento() && !possuiDocumento()) {
+            reprovar("Item reprovado: documentação comprobatória obrigatória não foi anexada");
+            return;
+        }
+
+        validarHoras(horasValidadas, observacao);
+    }
+
     public void validarAutomaticamente() {
+        if (this.atividade.requerDocumento() && !possuiDocumento()) {
+            reprovar("Item reprovado: documentação comprobatória obrigatória não foi anexada");
+            return;
+        }
+
         int horasCalculadas = this.atividade.calcularHorasValidas(this.horasDeclaradas);
         String observacao = gerarObservacaoAutomatica(horasCalculadas);
         validarHoras(horasCalculadas, observacao);

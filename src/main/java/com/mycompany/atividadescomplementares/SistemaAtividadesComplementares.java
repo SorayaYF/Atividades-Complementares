@@ -1,6 +1,7 @@
 package com.mycompany.atividadescomplementares;
 
 import com.mycompany.atividadescomplementares.domain.Aluno;
+import com.mycompany.atividadescomplementares.domain.CursoConfig;
 import com.mycompany.atividadescomplementares.domain.Requerimento;
 import com.mycompany.atividadescomplementares.presentation.MenuModalidades;
 import com.mycompany.atividadescomplementares.repository.AtividadeRepositoryMemoria;
@@ -10,19 +11,21 @@ import com.mycompany.atividadescomplementares.service.GeradorParecerConsole;
 import java.util.Scanner;
 
 public class SistemaAtividadesComplementares {
-    
+
     public static void main(String[] args) {
         AtividadeRepositoryMemoria repository = new AtividadeRepositoryMemoria();
         GeradorParecerConsole geradorParecer = new GeradorParecerConsole();
         AtividadeComplementarFacade facade = new AtividadeComplementarFacade(repository, geradorParecer);
-        
+
         Scanner scanner = new Scanner(System.in);
-        
+
         try {
-            Aluno aluno = new Aluno("202500789", "João Silva");
+            CursoConfig cursoConfig = new CursoConfig("TADS", 200);
+            Aluno aluno = new Aluno("202500789", "João Silva", cursoConfig);
             Requerimento requerimento = new Requerimento(aluno);
 
             new MenuModalidades(scanner, facade, requerimento).executar();
+
         } catch (Exception e) {
             System.err.println("Erro no sistema: " + e.getMessage());
             e.printStackTrace();

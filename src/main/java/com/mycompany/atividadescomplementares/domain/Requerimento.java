@@ -1,10 +1,7 @@
 package com.mycompany.atividadescomplementares.domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Requerimento {
@@ -43,14 +40,42 @@ public class Requerimento {
         this.itens.remove(item);
     }
 
-    public void processar() {
+    public void enviarParaAvaliacao() {
         if (this.itens.isEmpty()) {
-            throw new IllegalStateException("Requerimento deve ter pelo menos um item para ser processado");
+            throw new IllegalStateException("Requerimento deve ter pelo menos um item para ser enviado");
+        }
+        this.status = StatusRequerimento.EM_AVALIACAO;
+    }
+
+    public void processar() {
+        if (this.status != StatusRequerimento.EM_AVALIACAO) {
+            enviarParaAvaliacao();
         }
 
         this.itens.forEach(ItemRequerimento::validarAutomaticamente);
-
         this.status = StatusRequerimento.FINALIZADO;
+    }
+
+    public boolean estaAprovado() {
+        CursoConfig config = this.aluno.obterCursoConfig();
+        Map<Modalidade, Integer> horasPorModalidade = calcularHorasPorModalidade();
+        int totalHoras = calcularTotalHorasValidadas();
+
+        return config.validarDistribuicaoHoras(horasPorModalidade, totalHoras);
+    }
+
+    public Map<Modalidade, Integer> calcularHorasPorModalidade() {
+        Map<Modalidade, Integer> horasPorModalidade = new HashMap<>();
+
+        for (Modalidade modalidade : Modalidade.values()) {
+            int horas = this.itens.stream()
+                    .filter(item -> item.obterAtividade().eDaModalidade(modalidade))
+                    .mapToInt(ItemRequerimento::obterHorasValidadas)
+                    .sum();
+            horasPorModalidade.put(modalidade, horas);
+        }
+
+        return horasPorModalidade;
     }
 
     public int calcularTotalHorasValidadas() {

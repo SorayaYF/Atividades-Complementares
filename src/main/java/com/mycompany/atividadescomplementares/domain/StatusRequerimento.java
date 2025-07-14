@@ -10,7 +10,7 @@ public enum StatusRequerimento {
     StatusRequerimento(String descricao) {
         this.descricao = descricao;
     }
-    
+
     public boolean podeSerEditado() {
         return this == ABERTO;
     }
@@ -18,7 +18,7 @@ public enum StatusRequerimento {
     public boolean podeMudarParaFinalizado() {
         return this == EM_AVALIACAO;
     }
-  
+
     public boolean estaFinalizado() {
         return this == FINALIZADO;
     }

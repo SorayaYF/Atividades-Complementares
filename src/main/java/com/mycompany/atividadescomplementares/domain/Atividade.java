@@ -2,18 +2,23 @@ package com.mycompany.atividadescomplementares.domain;
 
 import java.util.Objects;
 
-public final class Atividade {
+public class Atividade {
     private final String codigo;
     private final String descricao;
     private final int limiteDeHoras;
     private final Modalidade modalidade;
+    private final String documentacaoComprobatoria;
+    private final boolean requerDocumento;
 
-    public Atividade(String codigo, String descricao, int limiteDeHoras, Modalidade modalidade) {
+    public Atividade(String codigo, String descricao, int limiteDeHoras, Modalidade modalidade,
+                     String documentacaoComprobatoria, boolean requerDocumento) {
         validarArgumentos(codigo, descricao, limiteDeHoras, modalidade);
         this.codigo = codigo;
         this.descricao = descricao;
         this.limiteDeHoras = limiteDeHoras;
         this.modalidade = modalidade;
+        this.documentacaoComprobatoria = documentacaoComprobatoria;
+        this.requerDocumento = requerDocumento;
     }
 
     private void validarArgumentos(String codigo, String descricao, int limiteDeHoras, Modalidade modalidade) {
@@ -53,6 +58,14 @@ public final class Atividade {
 
     public Modalidade obterModalidade() {
         return modalidade;
+    }
+
+    public String obterDocumentacaoComprobatoria() {
+        return documentacaoComprobatoria;
+    }
+
+    public boolean requerDocumento() {
+        return requerDocumento;
     }
 
     @Override
